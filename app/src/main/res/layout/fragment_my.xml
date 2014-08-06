@@ -16,5 +16,5 @@
         android:id="@+id/listview_forecast">
     </ListView>
 
-   
+
 </FrameLayout>
