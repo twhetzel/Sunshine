@@ -1,6 +1,7 @@
 package com.example.whetzel.sunshine;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,14 +9,18 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,9 +31,8 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Date;
-import org.json.*;
+import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -99,6 +103,7 @@ public class ForecastFragment extends Fragment {
         ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
         listView.setAdapter(mForecastAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -111,6 +116,10 @@ public class ForecastFragment extends Fragment {
                 //Toast toast = Toast.makeText(context, text, duration);
                 Toast toast = Toast.makeText(context, forecast, duration);
                 toast.show();
+
+                // Add Explicit Intent to launch DetailsActivity
+                Intent launchDetailsActivity = new Intent(context, DetailActivity.class).putExtra(Intent.EXTRA_TEXT, forecast);
+                startActivity(launchDetailsActivity);
 
             }
         });
