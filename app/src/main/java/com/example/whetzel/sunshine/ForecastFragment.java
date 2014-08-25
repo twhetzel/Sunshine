@@ -2,9 +2,11 @@ package com.example.whetzel.sunshine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +40,7 @@ import java.util.List;
  * A placeholder fragment containing a simple view.
  */
 public class ForecastFragment extends Fragment {
+    private static final String TAG = "ForecastFragment";
 
     private ArrayAdapter<String> mForecastAdapter;
 
@@ -63,11 +66,30 @@ public class ForecastFragment extends Fragment {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
+
+            /* Move to helper method updateWeather)
             FetchWeatherTask weatherTask = new FetchWeatherTask();
-            weatherTask.execute("94089");
+            // Get location from Preferences
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String location = prefs.getString(getString(R.string.pref_location_key),
+                    getString(R.string.pref_location_default));
+            Log.v(TAG, "** LocationPref ** "+location);
+            weatherTask.execute(location);*/
+
+            updateWeather();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updateWeather() {
+        FetchWeatherTask weatherTask = new FetchWeatherTask();
+        // Get location from Preferences
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location = prefs.getString(getString(R.string.pref_location_key),
+                getString(R.string.pref_location_default));
+        //Log.v(TAG, "** LocationPref ** "+location);
+        weatherTask.execute(location);
     }
 
 
@@ -312,6 +334,7 @@ public class ForecastFragment extends Fragment {
 
             return null;
         }
+
         @Override
         protected void onPostExecute(String[] result) {
             if (result != null) {
