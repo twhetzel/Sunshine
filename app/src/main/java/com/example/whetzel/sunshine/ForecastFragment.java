@@ -189,6 +189,7 @@ public class ForecastFragment extends Fragment {
             final String OWM_DATETIME = "dt";
             final String OWM_DESCRIPTION = "main";
 
+            // Get and parse JSON data
             JSONObject forecastJson = new JSONObject(forecastJsonStr);
             JSONArray weatherArray = forecastJson.getJSONArray(OWM_LIST);
 
