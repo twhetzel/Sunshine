@@ -64,16 +64,14 @@ public class ForecastFragment extends Fragment {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-
-            /* Move to helper method updateWeather)
-            FetchWeatherTask weatherTask = new FetchWeatherTask();
+            //Move to helper method updateWeather)
+            //FetchWeatherTask weatherTask = new FetchWeatherTask();
             // Get location from Preferences
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
             String location = prefs.getString(getString(R.string.pref_location_key),
                     getString(R.string.pref_location_default));
             Log.v(TAG, "** LocationPref ** "+location);
-            weatherTask.execute(location);*/
-
+            //weatherTask.execute(location);
             updateWeather();
             return true;
         }
@@ -89,12 +87,11 @@ public class ForecastFragment extends Fragment {
         // The ArrayAdapter will take data from a source (like our dummy forecast) and
         // use it to populate the ListView it's attached to.
        mForecastAdapter =
-        //ArrayAdapter<String> forecastAdapter
-        new ArrayAdapter<String>(
-                getActivity(), // The current context (this activity)
-                R.layout.list_item_forecast, // The name of the layout ID
-                R.id.list_item_forecast_textview, // The ID of the textview to populate
-                new ArrayList<String>());
+               new ArrayAdapter<String>(
+               getActivity(), // The current context (this activity)
+               R.layout.list_item_forecast, // The name of the layout ID
+               R.id.list_item_forecast_textview, // The ID of the textview to populate
+               new ArrayList<String>());
 
         View rootView = inflater.inflate(R.layout.fragment_my, container, false);
 
@@ -161,6 +158,17 @@ public class ForecastFragment extends Fragment {
          * Prepare the weather high/lows for presentation.
          */
         private String formatHighLows(double high, double low) {
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String unitType = sharedPrefs.getString(getString(R.string.pref_units_key), getString(R.string.pref_units_metric));
+
+            if (unitType.equals(getString(R.string.pref_units_imperial))) {
+                high = (high * 1.8) +32;
+                low = (low *1.8) +32;
+            }
+            else if (!unitType.equals(getString(R.string.pref_units_metric))) {
+                Log.d(TAG, "Unit type not found: "+unitType);
+            }
+
             // For presentation, assume the user doesn't care about tenths of a degree.
             long roundedHigh = Math.round(high);
             long roundedLow = Math.round(low);
