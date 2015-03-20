@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.whetzel.sunshine" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -32,9 +33,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.whetzel.sunshine.MyActivity" />
         </activity>
-
+        <provider
+            android:authorities="com.example.whetzel.sunshine"
+            android:name=".data.WeatherProvider" />
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
